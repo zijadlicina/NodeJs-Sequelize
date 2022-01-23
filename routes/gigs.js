@@ -7,6 +7,7 @@ const Gig = require('../models/Gig');
 router.get('/', (req, res) => {
     Gig.findAll()
         .then(gigs => {
+            gigs.title = "dasd"
             res.render('gigs', {
                 gigs
             })

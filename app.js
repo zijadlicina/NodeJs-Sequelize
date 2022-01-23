@@ -1,7 +1,9 @@
 const express = require('express');
+const Handlebars = require('handlebars')
 const {engine} = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 
 // Database
 const db = require('./config/database')
@@ -17,8 +19,11 @@ const db = require('./config/database')
 const app = express();
 
 // Middleware for handlebars
-app.engine('handlebars', engine({ defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.engine('handlebars', engine({
+  defaultLayout: 'main',
+  handlebars: allowInsecurePrototypeAccess(Handlebars)
+ }));
+ app.set('view engine', 'handlebars');
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
