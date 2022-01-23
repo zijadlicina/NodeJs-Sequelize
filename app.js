@@ -28,6 +28,9 @@ app.engine('handlebars', engine({
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Index route
+app.get('/', (req, res) => res.render('index', {layout: 'landing'}))
+
 // Gig routes
 app.use('/gigs', require('./routes/gigs'));
 

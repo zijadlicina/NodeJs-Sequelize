@@ -14,8 +14,12 @@ router.get('/', (req, res) => {
         })
         .catch(err => console.log(err))
 })
+
+// Display add gig form
+router.get('/add', (req, res) => res.render('add'))
+
 // Add a gig
-router.get('/add', (req, res) => {
+router.post('/add', (req, res) => {
     // ultimately this data come from form, but now we hard-code
     const data = {
         title: 'Simple Wordpress website',
