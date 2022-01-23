@@ -16,10 +16,13 @@ const db = require('./config/database')
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+// Gig routes
+app.use('/gigs', require('./routes/gigs'));
 
 app.get('/', (req, res) => {
     res.send('INDEX');
 })
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`));
