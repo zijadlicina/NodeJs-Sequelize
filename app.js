@@ -1,5 +1,5 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const {engine} = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
@@ -15,6 +15,13 @@ const db = require('./config/database')
   }
 
 const app = express();
+
+// Middleware for handlebars
+app.engine('handlebars', engine({ defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Gig routes
 app.use('/gigs', require('./routes/gigs'));
