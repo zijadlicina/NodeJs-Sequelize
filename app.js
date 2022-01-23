@@ -3,12 +3,10 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const Sequelize = require('sequelize');
-const db = new Sequelize('codegig', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-  });
+// Database
+const db = require('./config/database')
 
+// Test
   try {
     db.authenticate();
     console.log('Connection has been established successfully.');
