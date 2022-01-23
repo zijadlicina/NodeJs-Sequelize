@@ -7,7 +7,6 @@ const Gig = require('../models/Gig');
 router.get('/', (req, res) => {
     Gig.findAll()
         .then(gigs => {
-            gigs.title = "dasd"
             res.render('gigs', {
                 gigs
             })
@@ -20,22 +19,43 @@ router.get('/add', (req, res) => res.render('add'))
 
 // Add a gig
 router.post('/add', (req, res) => {
-    // ultimately this data come from form, but now we hard-code
-    const data = {
-        title: 'Simple Wordpress website',
-        technologies: 'wordpress, php, html, css',
-        budget: '$1000',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo condimentum turpis nec blandit. Vivamus fringilla quam consequat arcu commodo luctus. Morbi dignissim consectetur sem in porta. Vivamus rhoncus in erat et varius. Phasellus vel facilisis elit. Pellentesque tincidunt facilisis erat non semper. Quisque facilisis sollicitudin facilisis.',
-        contact_email: 'user2@gmail.com'
-    }
-    let {title, technologies, description, budget, contact_email} = data;
+    let errors = [];
+    let {title, technologies, description, budget, contact_email} = req.body;
 
-    // Insert into table
-    Gig.create({
-        title, technologies, budget, description, contact_email
-    })  // Like all methods of Modul, this will return us a promise
-        .then(gig => res.redirect('/gigs'))
-        .catch(err => console.log(err))
+    // Validate fields
+    if (!title){
+        errors.push({text: 'Please add a title!'});
+    }
+    if (!description){
+        errors.push({text: 'Please add a description!'});
+    }
+    if (!technologies){
+        errors.push({text: 'Please add some technologies!'});
+    }
+    if (!contact_email){
+        errors.push({text: 'Please add a contact email!'});
+    }
+
+    // Check for errors - Send back files to the form if is error on form
+    if (errors.length > 0){
+        res.render('add', {
+            errors,
+            title, technologies, budget, description, contact_email
+        })
+    } else {
+        if (!budget) budget = 'Unknown'
+        else {
+            budget = `$${budget}`;
+        }
+        // Make lower case and remove space after comma
+        technologies = technologies.toLowerCase().replace(/, /g, ',')
+        // Insert into table
+        Gig.create({
+            title, technologies, budget, description, contact_email
+        })  // Like all methods of Modul, this will return us a promise
+            .then(gig => res.redirect('/gigs'))
+            .catch(err => console.log(err))
+    }
 })
 
 module.exports = router;
