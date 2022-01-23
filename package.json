@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-sequelize",
+  "version": "1.0.0",
+  "description": "Simple app with NodeJs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Zijad Licina",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "express-handlebars": "^6.0.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.14.0"
+  }
+}
